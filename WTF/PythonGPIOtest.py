@@ -1,4 +1,5 @@
 import sys
+import os
 import RPi.GPIO as GPIO
 from ST_VL6180X import VL6180X
 from time import sleep
@@ -66,15 +67,15 @@ class SensorArray:
     def read_mux(self, channel):
         
         GPIO.setup(channel,GPIO.OUT)
-        print(muxChannel[channel])
+        #print(muxChannel[channel])
         
     def write_mux_location(self, readChannel):
         muxValue = muxChannel[readChannel]
         
-        print("muxValue",muxValue)
+        #print("muxValue",muxValue)
         for m in range(4):
             GPIO.output(controlPin[m],muxValue[m])
-            print("controlpin {}, muxChannel {}".format(controlPin[m], muxValue[m]))
+            #print("controlpin {}, muxChannel {}".format(controlPin[m], muxValue[m]))
     def read_signal(self, sdaChannel):
         GPIO.input()
     
@@ -85,10 +86,18 @@ def main():
         sensor = SensorArray()
         sensor.get_sensors()
         #sensor.read_mux(15)
-        sensor.write_mux_location(1)
-        print ("Measured distance is : {} mm".format(tof_sensor.get_distance()))
-        #print ("Measured light level is : {} lux".format(tof_sensor.get_ambient_light(20))
-        
+        while True: 
+            
+            sensor.write_mux_location(0)
+            print ("Sensor1: {} mm".format(tof_sensor.get_distance()))
+            sensor.write_mux_location(1)
+            print ("Sensor2: {} mm".format(tof_sensor.get_distance()))
+            sensor.write_mux_location(2)
+            print ("Sensor3: {} mm".format(tof_sensor.get_distance()))
+            sensor.write_mux_location(3)
+            print ("Sensor4: {} mm".format(tof_sensor.get_distance()))
+            #print ("Measured light level is : {} lux".format(tof_sensor.get_ambient_light(20))
+            os.system('cls')
 
         
 if __name__ == "__main__": main()  
