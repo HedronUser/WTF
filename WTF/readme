@@ -1,0 +1,17 @@
+We're using the VL6180 TOF range sensor
+A 16-channel Analog Multiplexer will serve to MUX several VL6180s together.
+An iterative loop will collect and display data from sensors simulteneously
+
+See "multi_vl6180_controller_mux_example.ino"
+See "VL6180_test.py"
+
+As of 03/25/2017 we have a raspberry pi 3 running Pypy, with 
+
+dependencies
+smbus module
+ST_VL6180X.py module
+
+To install smbus use:
+
+pip3 install smbus-cffi
+  
