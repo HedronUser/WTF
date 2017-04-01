@@ -3,8 +3,17 @@ import os
 import RPi.GPIO as GPIO
 from ST_VL6180X import VL6180X
 from time import sleep
-GPIO.setmode(GPIO.BCM)
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(4, GPIO.OUT)
+GPIO.setup(5, GPIO.OUT)
+GPIO.setup(6, GPIO.OUT)
+GPIO.setup(7, GPIO.OUT)
+
+GPIO.output(4, 0)
+GPIO.output(5, 0)
+GPIO.output(6, 0)
+GPIO.output(7, 0)
 
 """-- Setup --"""
 debug = False
@@ -68,13 +77,12 @@ class SensorArray:
         
         GPIO.setup(channel,GPIO.OUT)
         #print(muxChannel[channel])
-        
+
     def write_mux_location(self, readChannel):
-        muxValue = muxChannel[readChannel]
-        
+        muxValue = self.muxChannel[readChannel]
         #print("muxValue",muxValue)
         for m in range(4):
-            GPIO.output(controlPin[m],muxValue[m])
+            GPIO.output(self.controlPin[m], muxValue[m])
             #print("controlpin {}, muxChannel {}".format(controlPin[m], muxValue[m]))
     def read_signal(self, sdaChannel):
         GPIO.input()
@@ -97,7 +105,7 @@ def main():
             sensor.write_mux_location(3)
             print ("Sensor4: {} mm".format(tof_sensor.get_distance()))
             #print ("Measured light level is : {} lux".format(tof_sensor.get_ambient_light(20))
-            os.system('cls')
+            os.system('clear')
 
         
 if __name__ == "__main__": main()  
